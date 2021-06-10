@@ -14,6 +14,8 @@ jobs:
       options: --user root
     steps:
       - uses: actions/checkout@v2
+      - name: Install Git
+        run: apk --no-cache add git
       - name: Build with Gradle
         env:
           BALLERINA_CENTRAL_ACCESS_TOKEN: ${{ secrets.BALLERINA_CENTRAL_ACCESS_TOKEN }}
@@ -22,7 +24,7 @@ jobs:
            ./gradlew build -Prelease=true -Premote=true
       - name: Create Pull Request For Updating Release Files
         id: cpr
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v3.10.0
         with:
           token: ${{ secrets.PAT }}
           commit-message: Update file hashes
